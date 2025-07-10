@@ -18,16 +18,47 @@ chrome.runtime.onInstalled.addListener(async () => {
 	});
 	await db.put("settings", { key: "whitelistEnabled", value: false });
 	await db.put("settings", { key: "passwordEncryption", value: "None" });
+	await db.put("settings", {
+		key: "ExtensionWindowId",
+		value: null,
+	});
 });
 
 chrome.action.onClicked.addListener(async (tab) => {
-	if (tab) {
-		registerTab(tab);
-		const db = await getDB();
-		// console.log("DB ready on click", db.name);
-		// await db.put("settings", { key: "theme", value: "dark" });
-		const value = await db.get("settings", "theme");
-		console.log("Theme setting:", value);
+	const db = await getDB();
+	const extensionWindowId = await db.get("settings", "ExtensionWindowId");
+	if (extensionWindowId.value) {
+		// If the extension window is already open, focus it
+		chrome.windows.update(extensionWindowId.value, { focused: true });
+		return;
+	}
+
+	const popupWindow = await chrome.windows.create({
+		url: "popup.html",
+		type: "popup",
+		width: 400,
+		height: 600,
+	});
+	// Store the window ID in the database
+	if (!popupWindow || !popupWindow.id) {
+		console.error("Failed to create popup window");
+		return;
+	}
+	await db.put("settings", {
+		key: "ExtensionWindowId",
+		value: popupWindow.id,
+	});
+});
+
+chrome.windows.onRemoved.addListener(async (windowId) => {
+	const db = await getDB();
+	const extensionWindowId = await db.get("settings", "ExtensionWindowId");
+	if (extensionWindowId.value === windowId) {
+		// If the closed window is the extension popup, reset the stored window ID
+		await db.put("settings", {
+			key: "ExtensionWindowId",
+			value: null,
+		});
 	}
 });
 

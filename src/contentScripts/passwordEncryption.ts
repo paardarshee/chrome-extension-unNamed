@@ -11,9 +11,6 @@ const passwordEncryption = (
 			tabId: number;
 		};
 
-		// Clear previous content
-		document.body.innerHTML = ``;
-
 		// Generate random string
 		const lengthMap = {
 			"16-bit": 16,
