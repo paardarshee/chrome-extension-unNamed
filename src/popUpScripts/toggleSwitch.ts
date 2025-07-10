@@ -44,19 +44,23 @@ const toggleSwitch = ({
 			}
 			try {
 				const res = await chrome.tabs.sendMessage(tab.id, {
-					action: "blockTab",
+					action: "checkPasswordEncryption",
 					tabId: tab.id,
 					encryptionType: "16-bit",
 				});
-				console.log("Response from blockTab:", res);
+				console.log("Response from checkPasswordEncryption:", res);
+				if (res.verified) {
+					input.checked = !input.checked;
+					await onToggle();
+				}
 			} catch (error) {
 				console.error("Error in password encryption check:", error);
 				return;
 			}
+		} else {
+			input.checked = !input.checked;
+			await onToggle();
 		}
-	});
-	input.addEventListener("change", async () => {
-		await onToggle();
 	});
 
 	return { container, getState };
