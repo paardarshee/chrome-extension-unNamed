@@ -1,9 +1,3 @@
-/**
- * Displays a secure, full-screen password verification popup based on the provided encryption type.
- * Generates a random string (16, 32, or 64 characters) and prompts the user to re-enter it.
- * Disables copy/paste, activates the submit button only on correct input, and returns the result via sendResponse.
- */
-
 const passwordEncryption = (
 	message: any,
 	sendResponse: (response?: any) => void
@@ -39,126 +33,74 @@ const passwordEncryption = (
 		const encryptionLength = lengthMap[msg.encryptionType];
 		const randomString = generateRandomString(encryptionLength);
 
-		// Create popup
-		const popUp = document.createElement("div");
-		popUp.style.cssText = `
-			position: fixed;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 100%;
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			justify-content: center;
-			background: rgba(132, 128, 128, 0.4);
-			backdrop-filter: blur(14px);
-			-webkit-backdrop-filter: blur(14px);
-			border: 1px solid rgba(255, 255, 255, 0.1);
-			border-radius: 12px;
-			color: #ffffff;
-			font-size: 18px;
-			font-weight: 600;
-			text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
-			padding: 40px;
-			text-align: center;
-			z-index: 9999;
-			user-select: none;
-		`;
-		popUp.id = `password-popup-${tabId}`;
+		// Add CSS styles
 
-		// Disable copy/paste globally within the popup
-		popUp.addEventListener("copy", (e) => e.preventDefault());
-		popUp.addEventListener("paste", (e) => e.preventDefault());
+		// Create popup container
+		const overlay = document.createElement("div");
+		overlay.className = "password-overlay";
+		overlay.id = `password-popup-${tabId}`;
+		overlay.addEventListener("copy", (e) => e.preventDefault());
+		overlay.addEventListener("paste", (e) => e.preventDefault());
 
-		// Subheading
-		const subHeading = document.createElement("h2");
-		subHeading.textContent = `Enter the following ${msg.encryptionType} code`;
+		const popup = document.createElement("div");
+		popup.className = "password-popup";
 
-		// Display random string
-		const randomText = document.createElement("p");
-		randomText.textContent = randomString;
-		randomText.style.cssText =
-			"margin: 16px 0; font-family: monospace; font-size: 20px;";
+		const heading = document.createElement("h2");
+		heading.textContent = `Enter the following ${msg.encryptionType} code`;
 
-		// Input box
+		const codeDisplay = document.createElement("div");
+		codeDisplay.className = "password-code";
+		codeDisplay.textContent = randomString;
+
 		const input = document.createElement("input");
 		input.type = "text";
 		input.maxLength = encryptionLength;
 		input.placeholder = `Type ${encryptionLength} characters`;
-		input.style.cssText = `
-			font-size: 18px;
-			padding: 10px;
-			width: 80%;
-			max-width: 400px;
-			text-align: center;
-			border-radius: 8px;
-			border: none;
-			margin-bottom: 20px;
-		`;
-
-		// Disable copy/paste on input
+		input.className = "password-input";
 		input.addEventListener("copy", (e) => e.preventDefault());
 		input.addEventListener("paste", (e) => e.preventDefault());
 
-		// Submit button
+		const buttonContainer = document.createElement("div");
+		buttonContainer.className = "password-buttons";
+
 		const submitBtn = document.createElement("button");
 		submitBtn.textContent = "Submit";
 		submitBtn.disabled = true;
-		submitBtn.style.cssText = `
-			padding: 10px 20px;
-			font-size: 16px;
-			border-radius: 6px;
-			border: none;
-			cursor: not-allowed;
-			background-color: #aaa;
-			color: #fff;
-			margin: 10px;
-		`;
+		submitBtn.className = "password-submit";
 
-		// Enable submit when input matches
+		const closeBtn = document.createElement("button");
+		closeBtn.textContent = "Close";
+		closeBtn.className = "password-close";
+
 		input.addEventListener("input", () => {
 			if (input.value === randomString) {
 				submitBtn.disabled = false;
-				submitBtn.style.backgroundColor = "#28a745";
-				submitBtn.style.cursor = "pointer";
+				submitBtn.classList.add("active");
 			} else {
 				submitBtn.disabled = true;
-				submitBtn.style.backgroundColor = "#aaa";
-				submitBtn.style.cursor = "not-allowed";
+				submitBtn.classList.remove("active");
 			}
 		});
 
 		submitBtn.addEventListener("click", () => {
-			popUp.remove();
 			sendResponse({ status: "success", verified: true });
+			overlay.remove();
 		});
 
-		// Close button
-		const closeBtn = document.createElement("button");
-		closeBtn.textContent = "Close";
-		closeBtn.style.cssText = `
-			padding: 10px 20px;
-			font-size: 16px;
-			border-radius: 6px;
-			border: none;
-			cursor: pointer;
-			background-color: #dc3545;
-			color: #fff;
-		`;
 		closeBtn.addEventListener("click", () => {
-			popUp.remove();
 			sendResponse({ status: "closed", verified: false });
+			overlay.remove();
 		});
 
-		// Append everything to popup
-		popUp.appendChild(subHeading);
-		popUp.appendChild(randomText);
-		popUp.appendChild(input);
-		popUp.appendChild(submitBtn);
-		popUp.appendChild(closeBtn);
+		buttonContainer.appendChild(submitBtn);
+		buttonContainer.appendChild(closeBtn);
 
-		document.body.appendChild(popUp);
+		popup.appendChild(heading);
+		popup.appendChild(codeDisplay);
+		popup.appendChild(input);
+		popup.appendChild(buttonContainer);
+		overlay.appendChild(popup);
+		document.body.appendChild(overlay);
 	}
 };
 

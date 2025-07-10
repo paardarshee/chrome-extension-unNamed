@@ -1,0 +1,81 @@
+.password-overlay {
+	position: fixed;
+	inset: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: rgba(255, 255, 255, 0.15);
+	backdrop-filter: blur(14px);
+	-webkit-backdrop-filter: blur(14px);
+	z-index: 9999;
+	font-family: "Segoe UI", sans-serif;
+}
+
+.password-popup {
+	background: rgba(40, 44, 52, 0.85);
+	border-radius: 12px;
+	box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
+	border: 1px solid rgba(255, 255, 255, 0.18);
+	color: #fff;
+	text-align: center;
+	padding: 32px;
+	max-width: 450px;
+	width: 90%;
+}
+
+.password-popup h2 {
+	margin-bottom: 16px;
+	font-size: 20px;
+}
+
+.password-code {
+	font-family: monospace;
+	font-size: 20px;
+	background: rgba(255, 255, 255, 0.08);
+	padding: 8px 16px;
+	border-radius: 6px;
+	display: inline-block;
+	margin-bottom: 20px;
+}
+
+.password-input {
+	width: 100%;
+	padding: 12px;
+	font-size: 16px;
+	border: none;
+	border-radius: 6px;
+	text-align: center;
+	margin-bottom: 20px;
+}
+
+.password-buttons {
+	display: flex;
+	justify-content: space-between;
+	gap: 10px;
+}
+
+.password-buttons button {
+	flex: 1;
+	padding: 10px 16px;
+	font-size: 15px;
+	border: none;
+	border-radius: 6px;
+	cursor: pointer;
+	transition: background 0.3s;
+}
+
+.password-submit {
+	background-color: #6c757d;
+	color: #fff;
+	cursor: not-allowed;
+}
+
+.password-submit.active {
+	background-color: #2ea44f;
+	cursor: pointer;
+}
+
+.password-close {
+	background-color: #d73a49;
+	color: #fff;
+}

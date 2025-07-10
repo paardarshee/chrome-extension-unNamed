@@ -12,22 +12,18 @@ const toggleSwitch = ({
 	const container = document.createElement("label");
 	container.textContent = label || "Toggle";
 	container.className = "toggle-switch";
-	const input = document.createElement("input");
-	input.type = "checkbox";
-	input.checked = checked;
+	const input = document.createElement("button");
+	input.ariaPressed = checked ? "true" : "false";
 	const slider = document.createElement("span");
 	slider.className = "slider";
 	container.appendChild(input);
 	container.appendChild(slider);
 
-	const getState = () => input.checked;
-	console.log("checked", input.checked);
+	const getState = () => input.ariaPressed === "true";
+	console.log("checked", input.ariaPressed);
 
 	input.addEventListener("click", async (event) => {
-		if (checkPasswordEncryption && input.checked) {
-			console.log("entered password encryption check");
-			console.log("checked", input.checked);
-			console.log("checkPasswordEncryption", checkPasswordEncryption);
+		if (checkPasswordEncryption && input.ariaPressed === "true") {
 			event.preventDefault();
 			const [tab] = await chrome.tabs.query({
 				active: true,
@@ -50,7 +46,7 @@ const toggleSwitch = ({
 				});
 				console.log("Response from checkPasswordEncryption:", res);
 				if (res.verified) {
-					input.checked = !input.checked;
+					input.ariaPressed = input.ariaPressed === "true" ? "false" : "true";
 					await onToggle();
 				}
 			} catch (error) {
@@ -58,7 +54,7 @@ const toggleSwitch = ({
 				return;
 			}
 		} else {
-			input.checked = !input.checked;
+			input.ariaPressed = input.ariaPressed === "true" ? "false" : "true";
 			await onToggle();
 		}
 	});

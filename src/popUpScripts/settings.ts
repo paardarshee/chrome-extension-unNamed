@@ -26,6 +26,7 @@ const passwordEncryptionSettingContainer = async () => {
 
 	passwordEncryptionContainer.appendChild(passwordEncryptionLabel);
 	passwordEncryptionContainer.appendChild(passwordEncryptionSelect);
+
 	return passwordEncryptionContainer;
 };
 
