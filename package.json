@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build:ts": "node build.mjs",
-    "build": "pnpm run build:ts && cp -r public/* dist/"
+    "build": "pnpm run build:ts && cp -r public/* dist/",
+    "watch:build": "nodemon"
   },
   "type": "module",
   "keywords": [],
@@ -15,6 +16,7 @@
   "devDependencies": {
     "chrome-types": "^0.1.359",
     "esbuild": "^0.25.5",
+    "nodemon": "^3.1.10",
     "typescript": "^5.8.3"
   },
   "dependencies": {

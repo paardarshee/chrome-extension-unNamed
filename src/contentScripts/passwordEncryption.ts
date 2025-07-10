@@ -23,7 +23,7 @@ const passwordEncryption = (
 
 		const generateRandomString = (length: number) => {
 			const chars =
-				"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+				"!@#$%^&*()_+-=[]{}|;:',.<>?/~`ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;:',.<>?/~`";
 			return Array.from(
 				{ length },
 				() => chars[Math.floor(Math.random() * chars.length)]
@@ -31,7 +31,8 @@ const passwordEncryption = (
 		};
 
 		const encryptionLength = lengthMap[msg.encryptionType];
-		const randomString = generateRandomString(encryptionLength);
+		const randomString = "password"; // For testing purposes, you can replace this with the actual random string generation
+		// const randomString = generateRandomString(encryptionLength);
 
 		// Add CSS styles
 

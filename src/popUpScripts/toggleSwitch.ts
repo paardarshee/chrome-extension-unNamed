@@ -1,3 +1,4 @@
+import getDB from "../db";
 const toggleSwitch = ({
 	label,
 	checked = false,
@@ -23,7 +24,13 @@ const toggleSwitch = ({
 	console.log("checked", input.ariaPressed);
 
 	input.addEventListener("click", async (event) => {
-		if (checkPasswordEncryption && input.ariaPressed === "true") {
+		const db = await getDB();
+		const passwordEncryption = await db.get("settings", "passwordEncryption");
+		if (
+			checkPasswordEncryption &&
+			input.ariaPressed === "true" &&
+			passwordEncryption.value !== "None"
+		) {
 			event.preventDefault();
 			const [tab] = await chrome.tabs.query({
 				active: true,
@@ -42,7 +49,7 @@ const toggleSwitch = ({
 				const res = await chrome.tabs.sendMessage(tab.id, {
 					action: "checkPasswordEncryption",
 					tabId: tab.id,
-					encryptionType: "16-bit",
+					encryptionType: passwordEncryption.value,
 				});
 				console.log("Response from checkPasswordEncryption:", res);
 				if (res.verified) {

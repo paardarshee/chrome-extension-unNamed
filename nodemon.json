@@ -1,0 +1,8 @@
+{
+    "watch": [
+        "src",
+        "public"
+    ],
+    "ext": "ts,js,json",
+    "exec": "pnpm build"
+}
