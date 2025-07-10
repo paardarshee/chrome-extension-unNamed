@@ -33,18 +33,22 @@ const toggleSwitch = ({
 				active: true,
 				currentWindow: true,
 			});
-
 			if (!tab || !tab.id) {
 				console.error("No active tab found");
 				return;
 			}
+			const activeTab = await chrome.tabs.get(tab.id);
+			if (!activeTab) {
+				console.error("Active tab not found");
+				return;
+			}
 			try {
-				const response = await chrome.tabs.sendMessage(tab.id, {
-					action: "checkPasswordEncryption",
+				const res = await chrome.tabs.sendMessage(tab.id, {
+					action: "blockTab",
 					tabId: tab.id,
 					encryptionType: "16-bit",
 				});
-				console.log(response);
+				console.log("Response from blockTab:", res);
 			} catch (error) {
 				console.error("Error in password encryption check:", error);
 				return;

@@ -1,7 +1,7 @@
 import getDB from "./db";
 // --- Simulate async tab content ---
 
-import { WhitelistContent, settingsContent } from "./popUpUI";
+import { WhitelistContent, settingsContent } from "./popUpScripts";
 
 // --- Tab config ---
 const tabs = [
@@ -41,5 +41,7 @@ async function switchTab(tabId: string) {
 }
 
 // --- Initial render ---
-renderTabs();
-switchTab(tabs[0].id); // Default to first tab
+document.addEventListener("DOMContentLoaded", async () => {
+	renderTabs();
+	await switchTab(tabs[0].id); // Default to first tab
+});
