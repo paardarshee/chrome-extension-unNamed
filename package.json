@@ -1,0 +1,23 @@
+{
+  "name": "extensions-building-tutorials",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build:ts": "node build.mjs",
+    "build": "pnpm run build:ts && cp -r public/* dist/"
+  },
+  "type": "module",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.12.4",
+  "devDependencies": {
+    "chrome-types": "^0.1.359",
+    "esbuild": "^0.25.5",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "idb": "^8.0.3"
+  }
+}
