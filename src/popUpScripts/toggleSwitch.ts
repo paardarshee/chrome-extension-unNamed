@@ -1,3 +1,4 @@
+import { bypassToggle } from ".";
 import getDB from "../db";
 const toggleSwitch = ({
 	label,
@@ -32,34 +33,11 @@ const toggleSwitch = ({
 			passwordEncryption.value !== "None"
 		) {
 			event.preventDefault();
-			const [tab] = await chrome.tabs.query({
-				active: true,
-				currentWindow: true,
-			});
-			if (!tab || !tab.id) {
-				console.error("No active tab found");
-				return;
-			}
-			const activeTab = await chrome.tabs.get(tab.id);
-			if (!activeTab) {
-				console.error("Active tab not found");
-				return;
-			}
-			try {
-				const res = await chrome.tabs.sendMessage(tab.id, {
-					action: "checkPasswordEncryption",
-					tabId: tab.id,
-					encryptionType: passwordEncryption.value,
-				});
-				console.log("Response from checkPasswordEncryption:", res);
-				if (res.verified) {
-					input.ariaPressed = input.ariaPressed === "true" ? "false" : "true";
-					await onToggle();
-				}
-			} catch (error) {
-				console.error("Error in password encryption check:", error);
-				return;
-			}
+			const onToggleOff = async () => {
+				input.ariaPressed = input.ariaPressed === "true" ? "false" : "true";
+				await onToggle();
+			};
+			bypassToggle(passwordEncryption.value, onToggleOff);
 		} else {
 			input.ariaPressed = input.ariaPressed === "true" ? "false" : "true";
 			await onToggle();

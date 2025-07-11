@@ -36,7 +36,7 @@ chrome.action.onClicked.addListener(async (tab) => {
 	const popupWindow = await chrome.windows.create({
 		url: "popup.html",
 		type: "popup",
-		width: 400,
+		width: 500,
 		height: 600,
 	});
 	// Store the window ID in the database

@@ -1,4 +1,4 @@
-import { tabBlocker, passwordEncryption } from "./contentScripts";
+import { tabBlocker } from "./contentScripts";
 
 chrome.runtime.onMessage.addListener(
 	(
@@ -10,10 +10,6 @@ chrome.runtime.onMessage.addListener(
 		if (message.action === "blockTab") {
 			tabBlocker(message, sendResponse);
 			return false;
-		} else if (message.action === "checkPasswordEncryption") {
-			// console.log("Entered Password Encryption Check");
-			passwordEncryption(message, sendResponse);
-			return true;
 		} else {
 			return false;
 		}

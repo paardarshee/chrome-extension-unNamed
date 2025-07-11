@@ -1,4 +1,12 @@
 import WhitelistContent from "./whiteList";
 import toggleSwitch from "./toggleSwitch";
 import settingsContent from "./settings";
-export { WhitelistContent, toggleSwitch, settingsContent };
+import passwordEncryptionSettingContainer from "./passwordEncryptionSettingContainer";
+import bypassToggle from "./bypassToggle";
+export {
+	WhitelistContent,
+	toggleSwitch,
+	settingsContent,
+	passwordEncryptionSettingContainer,
+	bypassToggle,
+};
