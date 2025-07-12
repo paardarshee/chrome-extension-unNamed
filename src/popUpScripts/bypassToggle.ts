@@ -1,12 +1,12 @@
 const bypassToggle = (
-	encryptionType: "16-bit" | "32-bit" | "64-bit",
+	encryptionType: "16-bit" | "32-bit" | "48-bit",
 	onClick: () => Promise<void>
 ) => {
 	// Generate random string
 	const lengthMap = {
 		"16-bit": 16,
 		"32-bit": 32,
-		"64-bit": 64,
+		"48-bit": 64,
 	};
 
 	const generateRandomString = (length: number) => {
@@ -43,6 +43,7 @@ const bypassToggle = (
 	const input = document.createElement("input");
 	input.type = "text";
 	input.maxLength = encryptionLength;
+	input.style.width = `${encryptionLength * 7}px`;
 	input.placeholder = `Type ${encryptionLength} characters`;
 	input.className = "bypass-toggle-input";
 	input.addEventListener("copy", (e) => e.preventDefault());

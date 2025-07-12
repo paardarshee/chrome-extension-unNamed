@@ -9,7 +9,7 @@ const passwordEncryptionSettingContainer = async () => {
 	const passwordEncryptionLabel = document.createElement("label");
 	passwordEncryptionLabel.textContent = "Password Encryption";
 	const passwordEncryptionSelect = document.createElement("select");
-	const options = ["None", "16-bit", "32-bit", "64-bit"];
+	const options = ["None", "16-bit", "32-bit", "48-bit"];
 	options.forEach((option) => {
 		const opt = document.createElement("option");
 		opt.value = option;

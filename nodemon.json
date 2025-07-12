@@ -4,5 +4,6 @@
         "public"
     ],
     "ext": "ts,js,json",
-    "exec": "pnpm build"
+    "exec": "pnpm build",
+    "restartable": "r"
 }
