@@ -1,8 +1,8 @@
 {
     "manifest_version": 3,
-    "name": "Learning",
+    "name": "Focused Mind",
     "version": "1.0.0",
-    "description": "A Chrome Extension built with TypeScript.",
+    "description": "Boost focus with AI-powered tools! Perfect for students & those struggling to concentrate. Features Pomodoro timer, website blocking, whitelist mode, task prioritizer, and night-only edits. Track usage, set break intervals, and get critical time warnings.",
     "action": {
         "default_icon": {
             "16": "icons/icon.png",
